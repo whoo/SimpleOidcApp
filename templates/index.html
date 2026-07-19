@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+
+{% block title %}Oidc Index{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3 border">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Welcome {{ user.name }}</h1>
+        <p class="col-md-8 fs-4">Mini Template for Oidc Application</p>
+    </div>
+</div>
+
+    <div class="content">
+{% if user %}
+    <p>Logged in as: <strong>{{ user.name }}</strong> ({{ user.email }})</p>
+    <a class="btn btn-success"  href="{{ url_for('profile') }}">View Claims Profile</a> |
+    <a class="btn btn-danger" href="{{ url_for('logout') }}">Logout</a>
+{% else %}
+    <p>You are not logged in.</p>
+    <a role="button" class="btn btn-primary" href="{{ url_for('login') }}">Sign In via OIDC></a>
+{% endif %}
+    </div>
+
+</div>
+{% endblock %}

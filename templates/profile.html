@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Oidc Index{% endblock %}
+
+{% block content %}
+<h1>User OIDC Claims Information</h1>
+<p>Below are the claims decoded and validated directly from your ID token:</p>
+
+
+<div class="row alert-primary alert">
+
+	<div class=col">
+<img src={{ claims['picture'] }} 
+     class="shadow rounded-circle " style="width: 150px; height: 150px; object-fit: cover;">
+	</div>
+
+<div class=col-sm-4>
+<b> Name:   </b> {{ claims['display_name'] }} <br/>
+<b> SshUser:</b> {{ claims['sshuser']}} <br/>
+<b> Email:  </b> {{ claims['email']}} <br/>
+<b> Exp:    </b> {{ datetime.fromtimestamp(( claims['exp'])).strftime('%Y-%m-%d %H:%M:%S') }}<br/>
+
+ <a class="btn btn-primary" href="{{ url_for('index') }}">Back to Home</a>
+</div>
+</div>
+
+<div class=row>
+	<h2>Details</h2>
+
+<p class="d-inline-flex gap-1">
+  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+	  >>>
+  </a>
+</p>
+<div class="collapse" id="collapseExample">
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th>Claim</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for key, val in claims.items() %}
+        <tr>
+            <td><strong>{{ key }}</strong></td>
+            <td>{{ val }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+
+{% endblock %}
