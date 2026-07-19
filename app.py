@@ -22,44 +22,6 @@ oauth.register(
         "verify": False },
 )
 
-# ----------------- HTML TEMPLATES -----------------
-INDEX_TEMPLATE = """
-<h1>Welcome to the Flask OIDC App</h1>
-{% if user %}
-    <p>Logged in as: <strong>{{ user.name }}</strong> ({{ user.email }})</p>
-    <a href="{{ url_for('profile') }}"><button>View Claims Profile</button></a> | 
-    <a href="{{ url_for('logout') }}"><button>Logout</button></a>
-{% else %}
-    <p>You are not logged in.</p>
-    <a href="{{ url_for('login') }}"><button>Sign In via OIDC</button></a>
-{% endif %}
-"""
-
-PROFILE_TEMPLATE = """
-<h1>User OIDC Claims Information</h1>
-<p>Below are the claims decoded and validated directly from your ID token:</p>
-
-<img src={{ claims['picture'] }} >
-
-<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
-    <thead>
-        <tr style="background-color: #f2f2f2;">
-            <th>Claim</th>
-            <th>Value</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for key, val in claims.items() %}
-        <tr>
-            <td><strong>{{ key }}</strong></td>
-            <td>{{ val }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<br>
-<a href="{{ url_for('index') }}">Back to Home</a>
-"""
 
 # ----------------- APPLICATIONS ROUTES -----------------
 
@@ -67,7 +29,6 @@ PROFILE_TEMPLATE = """
 def index():
     user = session.get("user")
     return render_template('index.html', user=user)
-#    return render_template_string(INDEX_TEMPLATE, user=user)
 
 
 @app.route("/login")
@@ -98,7 +59,6 @@ def profile():
         return redirect(url_for("login"))  # Protect endpoint against unauthenticated traffic
         
     return render_template("profile.html", claims=user_claims, datetime=datetime.datetime)
-#    return render_template_string(PROFILE_TEMPLATE, claims=user_claims)
 
 
 @app.route("/logout")
